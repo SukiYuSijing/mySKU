@@ -64,27 +64,31 @@
                 }else{
                     this.checked = this.checked.filter(v1=>v1!==v)
                 }
-                console.log(this.checked)
-
+                let prevCheck = this.checked.slice(0,-1)
+                let finalCheck = this.checked.slice(-1)
+                let r = this.storeList.filter(l=>prevCheck.every(v=>l.includes(v)))
+                let l = this.list.filter(item=>item.includes(finalCheck[0]))[0]
+                var canSlect = l&&l.filter(item=>{
+                    let result = r.some(res=>res.includes(item))
+                    return result
+                })||[]
                 var res = this.storeList.filter(l=>this.checkArrayInArray(this.checked,l))
                 res=res.flat()
                 res = [...new Set(res)]
                 for(let k in this.obj){
                     this.obj[k] = false
                 }
-                for(let v of res){
+                for(let v of new Set(res.concat(...canSlect))){
                     this.obj[v] = true
                 }
-                // console.log(res)
             },
             getStoreList(){
-                var list = [this.colors,this.sets,this.sizes,this.years]
+                var list = this.list= [this.colors,this.sets,this.sizes,this.years]
                 this.iterator(list[0],[],list)
                 this.storeList.push(this.colors)
                 this.storeList.push(this.sets)
                 this.storeList.push(this.sizes)
                 this.storeList.push(this.years)
-                // debugger
                 let set = new Set()
                 this.storeList.forEach(v=>{
                     set.add(JSON.stringify(v))

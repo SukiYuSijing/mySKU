@@ -1,9 +1,0 @@
-{
-    "extends": [
-      "airbnb",
-      "prettier",
-      "prettier/react"
-    ],
-    "singleQuote": true,
-    "semi": false
-  }
